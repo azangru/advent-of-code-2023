@@ -60,19 +60,30 @@ const getGearRatio = (params: {
 
   let candidateCoords = adjacentCoords.filter(({ rowIndex, columnIndex}) => {
     return /\d/.test(lines[rowIndex][columnIndex]);
+  }).toSorted((a, b) => {
+    if (a.rowIndex !== b.rowIndex) {
+      return a.rowIndex - b.rowIndex;
+    } else {
+      return a.columnIndex - b.columnIndex;
+    }
   });
 
   // discard coords belonging to the same number
   let prunedCandidateCoords: { rowIndex: number, columnIndex: number }[] = [];
 
+  let rowCursor: number | undefined;
+  let columnCursor: number | undefined;
+
   for (const coords of candidateCoords) {
-    const hasCoordsOfSameNumber = prunedCandidateCoords
-      .find(c => c.rowIndex === coords.rowIndex && Math.abs(c.columnIndex - coords.columnIndex) === 1);
-    if (hasCoordsOfSameNumber) {
-      continue;
+    if (rowCursor === coords.rowIndex && coords.columnIndex - columnCursor === 1) {
+      rowCursor = coords.rowIndex;
+      columnCursor = coords.columnIndex;
+    } else {
+      prunedCandidateCoords.push(coords);
+      rowCursor = coords.rowIndex;
+      columnCursor = coords.columnIndex;
     }
-    prunedCandidateCoords.push(coords);
-  }  
+  }
 
   if (prunedCandidateCoords.length !== 2) {
     return null;

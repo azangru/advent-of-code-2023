@@ -82,6 +82,22 @@ describe('part2', () => {
     assert.equal(solvePart2(example2), 35 * 633);
   });
 
+
+  test('works some other edge cases', () => {
+    const example1 = `
+    46...114..
+    ...*......
+    .35$633...`;
+
+    const example2 = `
+    ..461..
+    ...*...
+    ..563..`;
+
+    // assert.equal(solvePart2(example1), 35 * 633);
+    assert.equal(solvePart2(example2), 461 * 563);
+  });
+
   test('works with example input', () => {
     assert.equal(solvePart2(input), 467835);
   });
