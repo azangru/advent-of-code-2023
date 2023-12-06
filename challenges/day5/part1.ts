@@ -21,7 +21,6 @@ const getMappedValue = (source: number, map: SourceToDestinationMap) => {
   for (const mapPart of map) {
     const { sourceRangeStart, destinationRangeStart, rangeLength } = mapPart;
     const sourceRangeEnd = sourceRangeStart + rangeLength - 1;
-    const destinationRangeEnd = destinationRangeStart + rangeLength - 1;
 
     if (source >= sourceRangeStart && source <= sourceRangeEnd) {
       const delta = source - sourceRangeStart;

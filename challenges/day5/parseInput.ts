@@ -76,6 +76,27 @@ export const parseInput = (input: string) => {
   };
 };
 
+export const parseInput2 = (input: string) => {
+  const firstPass = parseInput(input);
+
+  let { seeds } = firstPass;
+
+  const accumulator: number[][] = [];
+
+  for (let i = 0; i < seeds.length; i++) {
+    if (i%2 === 0) {
+      accumulator.push([seeds[i]]);
+    } else {
+      accumulator.at(-1).push(seeds[i]);
+    }
+  }
+
+  return {
+    ...firstPass,
+    seeds: accumulator
+  };
+};
+
 
 const parseMapBlock = (block: string): SourceToDestinationMap => {
   const lines = block.split('\n');
