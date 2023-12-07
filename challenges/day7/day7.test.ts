@@ -4,7 +4,7 @@ import { describe, test } from 'node:test';
 import { interpretHand } from './parseInput';
 
 import { solvePart1 } from './part1';
-// import { solvePart2 } from './part2';
+import { solvePart2 } from './part2';
 
 
 
@@ -86,17 +86,15 @@ describe('interpretHand', () => {
 describe('part1', () => {
 
   test('works with example input', () => {
-    console.log(solvePart1(input));
-
-    // assert.equal(solvePart2(input), 71503);
+    assert.equal(solvePart1(input), 6440);
   });
 
 });
 
-// describe('part2', () => {
+describe('part2', () => {
 
-//   test('works with example input', () => {
-//     assert.equal(solvePart2(input), 71503);
-//   });
+  test('works with example input', () => {
+    assert.equal(solvePart2(input), 5905);
+  });
 
-// });
+});
