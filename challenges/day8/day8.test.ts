@@ -2,7 +2,7 @@ import assert from 'assert/strict';
 import { describe, test } from 'node:test';
 
 import { solvePart1 } from './part1';
-// import { solvePart2 } from './part2';
+import { solvePart2 } from './part2';
 
 
 
@@ -39,10 +39,24 @@ describe('part1', () => {
 
 });
 
-// describe('part2', () => {
+describe('part2', () => {
 
-//   test('works with example input', () => {
-//     assert.equal(solvePart2(input), 71503);
-//   });
+  const input = `
+  LR
 
-// });
+  11A = (11B, XXX)
+  11B = (XXX, 11Z)
+  11Z = (11B, XXX)
+  22A = (22B, XXX)
+  22B = (22C, 22C)
+  22C = (22Z, 22Z)
+  22Z = (22B, 22B)
+  XXX = (XXX, XXX)
+  `;
+
+
+  test('works with example input', () => {
+    assert.equal(solvePart2(input), 6);
+  });
+
+});

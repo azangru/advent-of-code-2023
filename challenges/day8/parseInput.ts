@@ -39,7 +39,7 @@ const parseMap = (map: string) => {
 };
 
 const parseLine = (line: string) => {
-  const regex = /([A-Z]+)/g;
+  const regex = /([A-Z0-9]+)/g;
   const [rootNodeName, leftNodeName, rightNodeName] = line.match(regex);
 
   if (!rootNodeName && leftNodeName && rightNodeName) {
