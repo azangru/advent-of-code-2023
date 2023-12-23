@@ -7,7 +7,7 @@ export const parseInput = (input: string) => {
   const nodeMatrix = instantiateNodes(lines);
   connectNodes(nodeMatrix);
 
-  console.log('nodeMatrix', nodeMatrix);
+  // console.log('nodeMatrix', nodeMatrix);
 
   return nodeMatrix;
 };
@@ -47,6 +47,10 @@ J is a 90-degree bend connecting north and west.
 F is a 90-degree bend connecting south and east.
 */
 
+/**
+ * FIXME: the parsing is incorrect;
+ * only nodes that have a reciprocal node on the other side can get connected
+ */
 const connectNodes = (matrix: NodeMatrix) => {
   const rowLength = matrix[0].length;
 
@@ -56,78 +60,26 @@ const connectNodes = (matrix: NodeMatrix) => {
       if (!node) {
         continue;
       }
-      if (node.symbol === '|') {
-        const topNode = matrix[i - 1]?.[j];
-        const bottomNode = matrix[i + 1]?.[j];
+      const nodeAbove = matrix[i - 1]?.[j];
+      const nodeBelow = matrix[i + 1]?.[j];
+      const nodeLeft = matrix[i][j - 1];
+      const nodeRight = matrix[i][j + 1];
 
-        if (!topNode || !bottomNode) {
-          continue;
-        }
-
-        node.top = topNode;
-        topNode.bottom = node;
-        node.bottom = bottomNode;
-        bottomNode.top = node;
-      } else if (node.symbol === '-') {
-        const leftNode = matrix[i][j - 1];
-        const rightNode = matrix[i][j + 1];
-
-        if (!leftNode || !rightNode) {
-          continue;
-        }
-
-        node.left = leftNode;
-        leftNode.right = node;
-        node.right = rightNode;
-        rightNode.left = node;
-      } else if (node.symbol === 'L') {
-        const topNode = matrix[i - 1]?.[j];
-        const rightNode = matrix[i][j + 1];
-
-        if (!topNode || !rightNode) {
-          continue;
-        }
-
-        node.top = topNode;
-        topNode.bottom = node;
-        node.right = rightNode;
-        rightNode.left = node;
-      } else if (node.symbol === 'J') {
-        const topNode = matrix[i - 1][j];
-        const leftNode = matrix[i][j - 1];
-
-        if (!topNode || !topNode) {
-          continue;
-        }
-
-        node.top = topNode;
-        topNode.bottom = node;
-        node.left = leftNode;
-        leftNode.right = node;
-      } else if (node.symbol === '7') {
-        const leftNode = matrix[i][j - 1];
-        const bottomNode = matrix[i + 1]?.[j];
-
-        if (!leftNode || !bottomNode) {
-          continue;
-        }
-
-        node.left = leftNode;
-        leftNode.right = node;
-        node.bottom = bottomNode;
-        bottomNode.top = node; 
-      } else if (node.symbol === 'F') {
-        const rightNode = matrix[i][j + 1];
-        const bottomNode = matrix[i + 1]?.[j];
-
-        if (!rightNode || !bottomNode) {
-          continue;
-        }
-
-        node.right = rightNode;
-        rightNode.left = node;
-        node.bottom = bottomNode;
-        bottomNode.top = node; 
+      if (canConnectBottom(node) && canConnectTop(nodeBelow)) {
+        node.bottom = nodeBelow;
+        nodeBelow.top = node;
+      }
+      if (canConnectTop(node) && canConnectBottom(nodeAbove)) {
+        node.top = nodeAbove;
+        nodeAbove.bottom = node;
+      }
+      if (canConnectLeft(node) && canConnectRight(nodeLeft)) {
+        node.left = nodeLeft;
+        nodeLeft.right = node;
+      }
+      if (canConnectRight(node) && canConnectLeft(nodeRight)) {
+        node.right = nodeRight;
+        nodeRight.left = node;
       }
     }
   }
@@ -149,3 +101,42 @@ export class Node {
 };
 
 
+const canConnectLeft = (node: Node | undefined) => {
+  if (!node) {
+    return false;
+  } else if (node.isStart) {
+    return true;
+  } else {
+    return ['-', 'J', '7'].includes(node.symbol);
+  }
+}
+
+const canConnectRight = (node: Node | undefined) => {
+  if (!node) {
+    return false;
+  } else if (node.isStart) {
+    return true;
+  } else {
+    return ['-', 'L', 'F'].includes(node.symbol);
+  }
+}
+
+const canConnectTop = (node: Node | undefined) => {
+  if (!node) {
+    return false;
+  } else if (node.isStart) {
+    return true;
+  } else {
+    return ['|', 'L', 'J'].includes(node.symbol);
+  }
+}
+
+const canConnectBottom = (node: Node | undefined) => {
+  if (!node) {
+    return false;
+  } else if (node.isStart) {
+    return true;
+  } else {
+    return ['|', '7', 'F'].includes(node.symbol);
+  }
+}

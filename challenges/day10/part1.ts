@@ -25,8 +25,6 @@ const travelLoop = (startNode: Node) => {
   let currentNode = getNextNode(startNode, previousNode);
   let count = 1;
 
-  console.log('currentNode', currentNode);
-
   while (!hasCompletedLoop) {
     const nextNode = getNextNode(currentNode, previousNode);
     hasCompletedLoop = !!nextNode.isStart;

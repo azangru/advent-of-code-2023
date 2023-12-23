@@ -29,7 +29,7 @@ describe('part1', () => {
   |F--J
   LJ...`;
 
-  // same as input 2, but with added noise
+  // same as input 3, but with added noise
   const input4 = `
   7-F7-
   .FJ|7
@@ -38,20 +38,25 @@ describe('part1', () => {
   LJ.LJ`;
 
 
-  // test('works with example input 1', () => {
-  //   // console.log(solvePart1(input1));
-  //   assert.equal(solvePart1(input1), 4);
-  // });
+  test('works with example input 1', () => {
+    // console.log(solvePart1(input1));
+    assert.equal(solvePart1(input1), 4);
+  });
 
   test('works with example input 2', () => {
     // console.log(solvePart1(input1));
     assert.equal(solvePart1(input2), 4);
   });
 
-  // test('works with example input 3', () => {
-  //   // console.log(solvePart1(input1));
-  //   assert.equal(solvePart1(input3), 8);
-  // });
+  test('works with example input 3', () => {
+    // console.log(solvePart1(input1));
+    assert.equal(solvePart1(input3), 8);
+  });
+
+  test('works with example input 4', () => {
+    // console.log(solvePart1(input1));
+    assert.equal(solvePart1(input3), 8);
+  });
 
 });
 
