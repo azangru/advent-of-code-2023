@@ -7,27 +7,26 @@ export const parseInput = (input: string) => {
   const nodeMatrix = instantiateNodes(lines);
   connectNodes(nodeMatrix);
 
-  // console.log('nodeMatrix', nodeMatrix);
-
   return nodeMatrix;
 };
 
 const instantiateNodes = (lines: string[]): NodeMatrix => {
   const matrix: NodeMatrix = [];
 
-  for (const line of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
     const row = new Array(line.length).fill(null);
     matrix.push(row);
 
-    for (let i = 0; i < row.length; i++) {
-      const character = line[i];
+    for (let j = 0; j < row.length; j++) {
+      const character = line[j];
 
       if (character === '.') {
         continue;
       }
 
-      const node = new Node(character);
-      row[i] = node;
+      const node = new Node(character, i, j);
+      row[j] = node;
     }
   }
 
@@ -93,7 +92,7 @@ export class Node {
   top: Node | null;
   bottom: Node | null;
 
-  constructor(public symbol: string) {
+  constructor(public symbol: string, public rowIndex: number, public colummIndex: number) {
     if (symbol === 'S') {
       this.isStart = true;
     }
